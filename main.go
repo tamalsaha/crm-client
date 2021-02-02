@@ -32,11 +32,17 @@ func main() {
 		}}).
 		SetResult(&LeadResponse{}).    // or SetResult(AuthSuccess{}).
 		// SetError(&AuthError{}).       // or SetError(AuthError{}).
-		Post("https://appscode.freshsales.io/api/leads/5023512614")
+		Put("https://appscode.freshsales.io/api/leads/5023512614")
+	if err != nil {
+		panic(err)
+	}
 
 	rs4 := resp.Result().(*LeadResponse)
-	rdata, err := json.MarshalIndent(rs4, "", "  ")
-	fmt.Println(string(rdata))
+	udata, err := json.MarshalIndent(rs4, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(udata))
 
 	os.Exit(1)
 
