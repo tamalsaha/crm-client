@@ -2,6 +2,17 @@ package main
 
 import "time"
 
+type SearchResults []Entity
+
+type Entity struct {
+	ID          string `json:"id"`
+	Type        string `json:"type"`
+	Name        string `json:"name"`
+	Email       string `json:"email"`
+	Avatar      string `json:"avatar"`
+	CompanyName string `json:"company_name,omitempty"`
+}
+
 type CompanyType struct {
 	Partial  bool   `json:"partial,omitempty"`
 	ID       int64  `json:"id,omitempty"`

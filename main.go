@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -20,7 +19,27 @@ func main() {
 	// Create a Resty Client
 	client := resty.New()
 
-	// token := os.Getenv("CRM_API_TOKEN")
+	// search lead
+
+
+	resp, err := client.R().
+		SetQueryParams(map[string]string{
+			"q": "tamal.saha@gmail.com",
+			"include": "lead",
+		}).
+		EnableTrace().
+		SetHeader("Accept", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN"))).
+		SetResult(SearchResults{}).
+		Get("https://appscode.freshsales.io/api/search")
+
+	rs3 := resp.Result().(*SearchResults)
+	rdata, err := json.MarshalIndent(rs3, "", "  ")
+	fmt.Println(string(rdata))
+
+	os.Exit(1)
+
+	// Get Lead by id
 
 	// ref: https://developer.freshsales.io/api/#view_a_lead
 	// https://appscode.freshsales.io/leads/5022967942
@@ -33,25 +52,34 @@ func main() {
 		Lead Lead `json:"lead"`
 	}
 
-	resp, err := client.R().
+	resp, err = client.R().
 		EnableTrace().
-		SetQueryParams(map[string]string{
-			"page_no": "1",
-			"limit": "20",
-			"sort":"name",
-			"order": "asc",
-			"random":strconv.FormatInt(time.Now().Unix(), 10),
-		}).
 		SetHeader("Accept", "application/json").
 		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN"))).
-		// SetAuthToken(os.Getenv("CRM_API_TOKEN")).
 		SetResult(LeadResponse{}).
-		Get("https://appscode.freshsales.io/api/leads/5022967942")
+		Get("https://appscode.freshsales.io/api/leads/5006838695")
 
 	rs2 := resp.Result().(*LeadResponse)
 	ldata, err := json.MarshalIndent(rs2.Lead, "", "  ")
 	fmt.Println(string(ldata))
 
+	os.Exit(1)
+	// create lead
+
+	rs2.Lead.Email = "kamal.saha@gmail.com"
+	rs2.Lead.DisplayName = "Kamal Saha"
+	rs2.Lead.FirstName = "Kamal"
+
+	resp, err = client.R().
+		EnableTrace().
+		SetHeader("Accept", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN"))).
+		SetBody(LeadResponse{Lead: rs2.Lead}).
+		SetResult(&LeadResponse{}).    // or SetResult(AuthSuccess{}).
+		// SetError(&AuthError{}).       // or SetError(AuthError{}).
+		Post("https://appscode.freshsales.io/api/leads")
+
+	// :5023512614,
 
 	//resp, err := client.R().
 	//	EnableTrace().
