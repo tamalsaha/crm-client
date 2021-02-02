@@ -86,6 +86,11 @@ type CustomFields struct {
 	KubernetesSetup       string      `json:"cf_kubernetes_setup,omitempty"`
 	CalendlyMeetingAgenda interface{} `json:"cf_calendly_meeting_agenda,omitempty"`
 }
+
+type LeadResponse struct {
+	Lead Lead `json:"lead"`
+}
+
 type Lead struct {
 	ID                             int64         `json:"id,omitempty"`
 	JobTitle                       string        `json:"job_title,omitempty"`

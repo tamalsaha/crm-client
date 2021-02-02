@@ -19,10 +19,30 @@ func main() {
 	// Create a Resty Client
 	client := resty.New()
 
-	// search lead
+	// update lead
 
+	// 5023512614
 
 	resp, err := client.R().
+		EnableTrace().
+		SetHeader("Accept", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN"))).
+		SetBody(LeadResponse{Lead: Lead{
+			JobTitle:                       "Servant",
+		}}).
+		SetResult(&LeadResponse{}).    // or SetResult(AuthSuccess{}).
+		// SetError(&AuthError{}).       // or SetError(AuthError{}).
+		Post("https://appscode.freshsales.io/api/leads/5023512614")
+
+	rs4 := resp.Result().(*LeadResponse)
+	rdata, err := json.MarshalIndent(rs4, "", "  ")
+	fmt.Println(string(rdata))
+
+	os.Exit(1)
+
+	// search lead
+
+	resp, err = client.R().
 		SetQueryParams(map[string]string{
 			"q": "tamal.saha@gmail.com",
 			"include": "lead",
@@ -48,9 +68,6 @@ func main() {
   	curl -H "Authorization: Token token=sfg999666t673t7t82" -H "Content-Type: application/json" -X GET "https://domain.freshsales.io/api/leads/1"
   	*/
 
-  	type LeadResponse struct {
-		Lead Lead `json:"lead"`
-	}
 
 	resp, err = client.R().
 		EnableTrace().
