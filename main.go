@@ -23,9 +23,34 @@ func main() {
 		SetHeader("Accept", "application/json").
 		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN")))
 
+	// lookup search
+	resp, err := client.R().
+		SetQueryParams(map[string]string{
+			"q":        "tamal.saha@gmail.com",
+			"f":        "email",
+			"entities": "lead,contact",
+		}).
+		SetResult(&LookupResult{}).
+		Get("/api/lookup")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Response Info:")
+	fmt.Println("  Error      :", err)
+	fmt.Println("  Status Code:", resp.StatusCode())
+	fmt.Println("  Status     :", resp.Status())
+	fmt.Println("  Proto      :", resp.Proto())
+	fmt.Println("  Time       :", resp.Time())
+	fmt.Println("  Received At:", resp.ReceivedAt())
+	fmt.Println("  Body       :\n", resp)
+	fmt.Println()
+
+	os.Exit(1)
+
 	// add note
 
-	resp, err := client.R().
+	resp, err = client.R().
 		SetBody(APIObject{Note: &Note{
 			Description:    "Issued license for cluster xyz",
 			TargetableType: "Lead",

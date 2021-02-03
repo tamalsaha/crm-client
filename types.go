@@ -130,7 +130,7 @@ type Lead struct {
 	ActiveSalesSequences           int           `json:"active_sales_sequences,omitempty"`
 	WebFormIds                     string        `json:"web_form_ids,omitempty"`
 	LastAssignedAt                 *time.Time    `json:"last_assigned_at,omitempty"`
-	Tags                           []interface{} `json:"tags,omitempty"`
+	Tags                           []string      `json:"tags,omitempty"`
 	Facebook                       string        `json:"facebook,omitempty"`
 	Twitter                        string        `json:"twitter,omitempty"`
 	Linkedin                       string        `json:"linkedin,omitempty"`
@@ -138,6 +138,69 @@ type Lead struct {
 	TeamUserIds                    interface{}   `json:"team_user_ids,omitempty"`
 	SubscriptionStatus             int           `json:"subscription_status,omitempty"`
 	PhoneNumbers                   []interface{} `json:"phone_numbers,omitempty"`
+}
+
+type Contact struct {
+	ID                             int64        `json:"id,omitempty"`
+	FirstName                      string       `json:"first_name,omitempty"`
+	LastName                       string       `json:"last_name,omitempty"`
+	DisplayName                    string       `json:"display_name,omitempty"`
+	Avatar                         string       `json:"avatar,omitempty"`
+	JobTitle                       string       `json:"job_title,omitempty"`
+	City                           string       `json:"city,omitempty"`
+	State                          string       `json:"state,omitempty"`
+	Zipcode                        string       `json:"zipcode,omitempty"`
+	Country                        string       `json:"country,omitempty"`
+	Email                          string       `json:"email,omitempty"`
+	Emails                         []EmailInfo  `json:"emails,omitempty"`
+	DoNotDisturb                   bool         `json:"do_not_disturb,omitempty"`
+	HasAuthority                   bool         `json:"has_authority,omitempty"`
+	TimeZone                       string       `json:"time_zone,omitempty"`
+	Department                     string       `json:"department,omitempty"`
+	WorkNumber                     string       `json:"work_number,omitempty"`
+	MobileNumber                   string       `json:"mobile_number,omitempty"`
+	Address                        string       `json:"address,omitempty"`
+	LastSeen                       *time.Time   `json:"last_seen,omitempty"`
+	LeadScore                      int          `json:"lead_score,omitempty"`
+	LeadQuality                    string       `json:"lead_quality,omitempty"`
+	LastContacted                  *time.Time   `json:"last_contacted,omitempty"`
+	OpenDealsAmount                string       `json:"open_deals_amount,omitempty"`
+	WonDealsAmount                 string       `json:"won_deals_amount,omitempty"`
+	Links                          Links        `json:"links,omitempty"`
+	LastContactedSalesActivityMode string       `json:"last_contacted_sales_activity_mode,omitempty"`
+	CustomField                    CustomFields `json:"custom_field,omitempty"`
+	CreatedAt                      string       `json:"created_at,omitempty"`
+	UpdatedAt                      string       `json:"updated_at,omitempty"`
+	Keyword                        string       `json:"keyword,omitempty"`
+	Medium                         string       `json:"medium,omitempty"`
+	EmailStatus                    string       `json:"email_status,omitempty"`
+	LastContactedMode              string       `json:"last_contacted_mode,omitempty"`
+	RecentNote                     string       `json:"recent_note,omitempty"`
+	LastContactedViaChat           *time.Time   `json:"last_contacted_via_chat,omitempty"`
+	WonDealsCount                  int          `json:"won_deals_count,omitempty"`
+	LastContactedViaSalesActivity  string       `json:"last_contacted_via_sales_activity,omitempty"`
+	CompletedSalesSequences        int          `json:"completed_sales_sequences,omitempty"`
+	ActiveSalesSequences           int          `json:"active_sales_sequences,omitempty"`
+	WebFormIds                     string       `json:"web_form_ids,omitempty"`
+	OpenDealsCount                 int          `json:"open_deals_count,omitempty"`
+	LastAssignedAt                 *time.Time   `json:"last_assigned_at,omitempty"`
+	Tags                           []string     `json:"tags,omitempty"`
+	Facebook                       string       `json:"facebook,omitempty"`
+	Twitter                        string       `json:"twitter,omitempty"`
+	Linkedin                       string       `json:"linkedin,omitempty"`
+	IsDeleted                      bool         `json:"is_deleted,omitempty"`
+	TeamUserIds                    interface{}  `json:"team_user_ids,omitempty"`
+	SubscriptionStatus             int          `json:"subscription_status,omitempty"`
+	CustomerFit                    int          `json:"customer_fit,omitempty"`
+}
+
+type LookupResult struct {
+	Leads struct {
+		Leads []Lead `json:"leads,omitempty"`
+	} `json:"leads,omitempty"`
+	Contacts struct {
+		Contacts []Contact `json:"contacts,omitempty"`
+	} `json:"contacts,omitempty"`
 }
 
 type Note struct {
