@@ -17,76 +17,84 @@ func main() {
 	// t2.MarshalJSON()
 
 	// Create a Resty Client
-	client := resty.New()
+	client := resty.New().
+		EnableTrace().
+		SetHostURL("https://appscode.freshsales.io").
+		SetHeader("Accept", "application/json").
+		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN")))
+
+	// add note
+
+	resp, err := client.R().
+		SetBody(APIObject{Note: &Note{
+			Description:    "Issued license for cluster xyz",
+			TargetableType: "Lead",
+			TargetableID:   5023512614,
+		}}).
+		SetResult(&APIObject{}). // or SetResult(AuthSuccess{}).
+		// SetError(&AuthError{}).       // or SetError(AuthError{}).
+		Post("/api/notes")
+
+	rs5 := resp.Result().(*APIObject)
+	ndata, err := json.MarshalIndent(rs5, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(ndata))
 
 	// update lead
 
 	// 5023512614
 
-	resp, err := client.R().
-		EnableTrace().
-		SetHeader("Accept", "application/json").
-		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN"))).
-		SetBody(LeadResponse{Lead: Lead{
-			JobTitle:                       "Servant",
+	resp, err = client.R().
+		SetBody(APIObject{Lead: &Lead{
+			JobTitle: "Servant",
 		}}).
-		SetResult(&LeadResponse{}).    // or SetResult(AuthSuccess{}).
+		SetResult(&APIObject{}). // or SetResult(AuthSuccess{}).
 		// SetError(&AuthError{}).       // or SetError(AuthError{}).
-		Put("https://appscode.freshsales.io/api/leads/5023512614")
+		Put("/api/leads/5023512614")
 	if err != nil {
 		panic(err)
 	}
 
-	rs4 := resp.Result().(*LeadResponse)
+	rs4 := resp.Result().(*APIObject)
 	udata, err := json.MarshalIndent(rs4, "", "  ")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(string(udata))
 
-	os.Exit(1)
-
 	// search lead
 
 	resp, err = client.R().
 		SetQueryParams(map[string]string{
-			"q": "tamal.saha@gmail.com",
+			"q":       "tamal.saha@gmail.com",
 			"include": "lead",
 		}).
-		EnableTrace().
-		SetHeader("Accept", "application/json").
-		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN"))).
 		SetResult(SearchResults{}).
-		Get("https://appscode.freshsales.io/api/search")
+		Get("/api/search")
 
 	rs3 := resp.Result().(*SearchResults)
 	rdata, err := json.MarshalIndent(rs3, "", "  ")
 	fmt.Println(string(rdata))
 
-	os.Exit(1)
-
 	// Get Lead by id
 
 	// ref: https://developer.freshsales.io/api/#view_a_lead
 	// https://appscode.freshsales.io/leads/5022967942
-  	//  /api/leads/[id]
-  	/*
-  	curl -H "Authorization: Token token=sfg999666t673t7t82" -H "Content-Type: application/json" -X GET "https://domain.freshsales.io/api/leads/1"
-  	*/
-
+	//  /api/leads/[id]
+	/*
+		curl -H "Authorization: Token token=sfg999666t673t7t82" -H "Content-Type: application/json" -X GET "https://domain.freshsales.io/api/leads/1"
+	*/
 
 	resp, err = client.R().
-		EnableTrace().
-		SetHeader("Accept", "application/json").
-		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN"))).
-		SetResult(LeadResponse{}).
-		Get("https://appscode.freshsales.io/api/leads/5006838695")
+		SetResult(APIObject{}).
+		Get("/api/leads/5006838695")
 
-	rs2 := resp.Result().(*LeadResponse)
+	rs2 := resp.Result().(*APIObject)
 	ldata, err := json.MarshalIndent(rs2.Lead, "", "  ")
 	fmt.Println(string(ldata))
 
-	os.Exit(1)
 	// create lead
 
 	rs2.Lead.Email = "kamal.saha@gmail.com"
@@ -94,13 +102,10 @@ func main() {
 	rs2.Lead.FirstName = "Kamal"
 
 	resp, err = client.R().
-		EnableTrace().
-		SetHeader("Accept", "application/json").
-		SetHeader("Authorization", fmt.Sprintf("Token token=%s", os.Getenv("CRM_API_TOKEN"))).
-		SetBody(LeadResponse{Lead: rs2.Lead}).
-		SetResult(&LeadResponse{}).    // or SetResult(AuthSuccess{}).
+		SetBody(APIObject{Lead: rs2.Lead}).
+		SetResult(&APIObject{}). // or SetResult(AuthSuccess{}).
 		// SetError(&AuthError{}).       // or SetError(AuthError{}).
-		Post("https://appscode.freshsales.io/api/leads")
+		Post("/api/leads")
 
 	// :5023512614,
 

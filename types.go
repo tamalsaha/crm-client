@@ -87,10 +87,6 @@ type CustomFields struct {
 	CalendlyMeetingAgenda interface{} `json:"cf_calendly_meeting_agenda,omitempty"`
 }
 
-type LeadResponse struct {
-	Lead Lead `json:"lead"`
-}
-
 type Lead struct {
 	ID                             int64         `json:"id,omitempty"`
 	JobTitle                       string        `json:"job_title,omitempty"`
@@ -142,4 +138,19 @@ type Lead struct {
 	TeamUserIds                    interface{}   `json:"team_user_ids,omitempty"`
 	SubscriptionStatus             int           `json:"subscription_status,omitempty"`
 	PhoneNumbers                   []interface{} `json:"phone_numbers,omitempty"`
+}
+
+type Note struct {
+	Description    string `json:"description,omitempty"`
+	TargetableType string `json:"targetable_type,omitempty"`
+	TargetableID   int    `json:"targetable_id,omitempty"`
+
+	ID        int        `json:"id,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
+}
+
+type APIObject struct {
+	Lead *Lead `json:"lead,omitempty"`
+	Note *Note `json:"note,omitempty"`
 }
