@@ -34,13 +34,17 @@ func main() {
 		SetResult(&APIObject{}). // or SetResult(AuthSuccess{}).
 		// SetError(&AuthError{}).       // or SetError(AuthError{}).
 		Post("/api/notes")
-
+	if err != nil {
+		panic(err)
+	}
 	rs5 := resp.Result().(*APIObject)
 	ndata, err := json.MarshalIndent(rs5, "", "  ")
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(string(ndata))
+
+	os.Exit(1)
 
 	// update lead
 
