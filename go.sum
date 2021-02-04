@@ -63,6 +63,8 @@ golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1/go.mod h1:bj7SfCRtBDWHUb9sn
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.3/go.mod h1:5Zoc/QRtKVWzQhOtBMvqHzDpF6irO9z98xDceosuGiQ=
 golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
+gomodules.xyz/freshsales-client-go v0.0.0-20210204222807-1215b5970854 h1:czaJzYCb+t8P40ZyFn+vxDbsob+4FXjSE6nDRtAl7AE=
+gomodules.xyz/freshsales-client-go v0.0.0-20210204222807-1215b5970854/go.mod h1:6dBJkzyzcftgiW03gKJcrb0wgMpyTHytpQXoqi3jm5Q=
 gomodules.xyz/sets v0.0.0-20200930152147-4f4543544799 h1:EkAevJpXguUjG191D3TjkYlKME1hc6yqr+4/imkpsks=
 gomodules.xyz/sets v0.0.0-20200930152147-4f4543544799/go.mod h1:jKgNp01/iDs+svOWXaPk5cKP3VXy0mWUoTF/ore+aMc=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=

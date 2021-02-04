@@ -58,6 +58,9 @@ golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/scrypt
 # golang.org/x/net v0.0.0-20201224014010-6772e930b67b
 golang.org/x/net/publicsuffix
+# gomodules.xyz/freshsales-client-go v0.0.0-20210204222807-1215b5970854
+## explicit
+gomodules.xyz/freshsales-client-go
 # gomodules.xyz/sets v0.0.0-20200930152147-4f4543544799
 ## explicit
 gomodules.xyz/sets

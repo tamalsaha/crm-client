@@ -44,7 +44,6 @@ AppsCode Team`
 	// fmt.Println(bodyHtml)
 	// bodyHtml= html_email
 
-
 	// recipient, subject, bodyText, bodyHtml string, attachments map[string][]byte) error {
 
 	err = SendMail(opts, recipient, subject, bodyText, bodyHtml, nil)

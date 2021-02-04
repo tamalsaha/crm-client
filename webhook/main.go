@@ -3,10 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mailgun/mailgun-go/v4"
-	"github.com/mailgun/mailgun-go/v4/events"
 	"net/http"
 	"os"
+
+	"github.com/mailgun/mailgun-go/v4"
+	"github.com/mailgun/mailgun-go/v4/events"
+	"gomodules.xyz/freshsales-client-go"
 	"sigs.k8s.io/yaml"
 )
 
@@ -55,6 +57,7 @@ func main() {
 			fmt.Printf("parse event error: %s\n", err)
 			return
 		}
+		fmt.Printf("Delivered transport: \n%s", string(d2))
 
 		switch event := e.(type) {
 		case *events.Accepted:
@@ -62,7 +65,55 @@ func main() {
 		case *events.Delivered:
 			fmt.Printf("Delivered transport: %s\n", event.Envelope.Transport)
 		case *events.Opened:
-			fmt.Printf("Delivered transport: %s\n", string(d2))
+			note := EmailEventNote{
+				BaseNoteDescription: freshsalesclient.BaseNoteDescription{
+					Event: event.Name,
+					Client: freshsalesclient.ClientInfo{
+						OS:     event.ClientInfo.ClientOS,
+						Device: event.ClientInfo.DeviceType,
+						Location: freshsalesclient.GeoLocation{
+							City:    event.GeoLocation.City,
+							Country: event.GeoLocation.Country,
+						},
+					},
+				},
+				Message: MessageHeaders{
+					MessageID: event.Message.Headers.MessageID,
+					Subject:   event.Message.Headers.Subject,
+				},
+				Url: "",
+			}
+			d2, err := yaml.Marshal(note)
+			if err != nil {
+				fmt.Printf("parse event error: %s\n", err)
+				return
+			}
+			fmt.Printf("Delivered transport: \n%s", string(d2))
+		case *events.Clicked:
+			note := EmailEventNote{
+				BaseNoteDescription: freshsalesclient.BaseNoteDescription{
+					Event: event.Name,
+					Client: freshsalesclient.ClientInfo{
+						OS:     event.ClientInfo.ClientOS,
+						Device: event.ClientInfo.DeviceType,
+						Location: freshsalesclient.GeoLocation{
+							City:    event.GeoLocation.City,
+							Country: event.GeoLocation.Country,
+						},
+					},
+				},
+				Message: MessageHeaders{
+					MessageID: event.Message.Headers.MessageID,
+					Subject:   event.Message.Headers.Subject,
+				},
+				Url: event.Url,
+			}
+			d2, err := yaml.Marshal(note)
+			if err != nil {
+				fmt.Printf("parse event error: %s\n", err)
+				return
+			}
+			fmt.Printf("Delivered transport: \n%s", string(d2))
 		}
 	})
 
@@ -71,4 +122,16 @@ func main() {
 		fmt.Printf("serve error: %s\n", err)
 		os.Exit(1)
 	}
+}
+
+type EmailEventNote struct {
+	freshsalesclient.BaseNoteDescription `json:",inline,omitempty"`
+
+	Message MessageHeaders `json:"message,omitempty"`
+	Url     string         `json:"url,omitempty"`
+}
+
+type MessageHeaders struct {
+	MessageID string `json:"message-id,omitempty"`
+	Subject   string `json:"subject,omitempty"`
 }

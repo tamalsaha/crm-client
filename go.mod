@@ -15,6 +15,7 @@ require (
 	github.com/mitchellh/copystructure v1.1.1 // indirect
 	github.com/yuin/goldmark v1.3.1
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
+	gomodules.xyz/freshsales-client-go v0.0.0-20210204222807-1215b5970854
 	gomodules.xyz/sets v0.0.0-20200930152147-4f4543544799
 	sigs.k8s.io/yaml v1.2.0
 )
