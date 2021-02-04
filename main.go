@@ -16,8 +16,8 @@ type MailData struct {
 
 func main() {
 	opts := Options{
-		MailgunDomain:        os.Getenv("MAILGUN_DOMAIN"),
-		MailgunPrivateAPIKey: os.Getenv("MAILGUN_KEY"),
+		MailgunDomain:        os.Getenv("MG_DOMAIN"),
+		MailgunPrivateAPIKey: os.Getenv("MG_API_KEY"),
 		MailSender:           "tamal@appscode.com",
 		MailLicenseTracker:   "michael+bcc@appscodehq.com",
 		MailReplyTo:          "michael@appscodehq.com",

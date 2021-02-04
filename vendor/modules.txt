@@ -61,3 +61,8 @@ golang.org/x/net/publicsuffix
 # gomodules.xyz/sets v0.0.0-20200930152147-4f4543544799
 ## explicit
 gomodules.xyz/sets
+# gopkg.in/yaml.v2 v2.3.0
+gopkg.in/yaml.v2
+# sigs.k8s.io/yaml v1.2.0
+## explicit
+sigs.k8s.io/yaml

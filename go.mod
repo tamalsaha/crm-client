@@ -16,4 +16,5 @@ require (
 	github.com/yuin/goldmark v1.3.1
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
 	gomodules.xyz/sets v0.0.0-20200930152147-4f4543544799
+	sigs.k8s.io/yaml v1.2.0
 )
