@@ -3,12 +3,56 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-resty/resty/v2"
 	"os"
 	"time"
+
+	"github.com/go-resty/resty/v2"
 )
 
+type MailData struct {
+	Name    string
+	Product string
+}
+
 func main() {
+	opts := Options{
+		MailgunDomain:        os.Getenv("MAILGUN_DOMAIN"),
+		MailgunPrivateAPIKey: os.Getenv("MAILGUN_KEY"),
+		MailSender:           "tamal@appscode.com",
+		MailLicenseTracker:   "michael+bcc@appscodehq.com",
+		MailReplyTo:          "michael@appscodehq.com",
+	}
+
+	recipient := "michael@appscodehq.com"
+	subject := "mailgun tracker"
+
+	src := `Hi {{.Name}},
+Thanks for your interest in {{.Product}}. The license for [Kubernetes](https://kubernetes.io) cluster **Cluster** is attached with this email.
+
+Please let us know if you have any questions.
+
+Regards,
+AppsCode Team`
+	bodyText, bodyHtml, err := RenderMail(src, MailData{
+		Name:    "John",
+		Product: "kubedb-enterprise",
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	// fmt.Println(bodyHtml)
+	// bodyHtml= html_email
+
+
+	// recipient, subject, bodyText, bodyHtml string, attachments map[string][]byte) error {
+
+	err = SendMail(opts, recipient, subject, bodyText, bodyHtml, nil)
+	if err != nil {
+		panic(err)
+	}
+	os.Exit(1)
+
 	t2, err := time.Parse(time.RFC3339, "2021-01-29T13:56:15-08:00")
 	if err != nil {
 		panic(err)

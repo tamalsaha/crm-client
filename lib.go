@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/go-resty/resty/v2"
 	"github.com/gobuffalo/flect"
 	"gomodules.xyz/sets"
-	"strings"
 )
 
 type Client struct {
