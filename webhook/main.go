@@ -77,11 +77,10 @@ func main() {
 						},
 					},
 				},
-				Message: MessageHeaders{
+				Message: Message{
 					MessageID: event.Message.Headers.MessageID,
 					Subject:   event.Message.Headers.Subject,
 				},
-				Url: "",
 			}
 			d2, err := yaml.Marshal(note)
 			if err != nil {
@@ -102,11 +101,11 @@ func main() {
 						},
 					},
 				},
-				Message: MessageHeaders{
+				Message: Message{
 					MessageID: event.Message.Headers.MessageID,
 					Subject:   event.Message.Headers.Subject,
+					Url:       event.Url,
 				},
-				Url: event.Url,
 			}
 			d2, err := yaml.Marshal(note)
 			if err != nil {
@@ -127,11 +126,11 @@ func main() {
 type EmailEventNote struct {
 	freshsalesclient.BaseNoteDescription `json:",inline,omitempty"`
 
-	Message MessageHeaders `json:"message,omitempty"`
-	Url     string         `json:"url,omitempty"`
+	Message Message `json:"message,omitempty"`
 }
 
-type MessageHeaders struct {
+type Message struct {
 	MessageID string `json:"message-id,omitempty"`
 	Subject   string `json:"subject,omitempty"`
+	Url       string `json:"url,omitempty"`
 }
